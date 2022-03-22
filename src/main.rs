@@ -1,4 +1,3 @@
-
 mod circular_buffer;
 
 fn main() {
