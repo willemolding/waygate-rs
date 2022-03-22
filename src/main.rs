@@ -6,12 +6,14 @@ use std::ffi::CString;
 
 use rocket::form::Form;
 use rocket::response::status;
+use rocket::response::content::Html;
 
 mod circular_buffer;
 use circular_buffer::CircularBuffer;
 
+const PAGE_SRC: &str = include_str!("page_source.html");
+
 const BUFFER_SIZE: usize = 100;
-const PAGE_SOURCE: &str = include_str!("index.html.template");
 
 type MessageBuffer = CircularBuffer<BUFFER_SIZE>;
 
@@ -20,10 +22,17 @@ lazy_static! {
 }
 
 #[get("/")]
-fn index() -> String {
+fn index() -> Html<String> {
     let buf = MSG_BUF.read().unwrap();
-    let strings = buf.into_iter().collect::<Vec<String>>();
-    strings.join("; ")
+    let messages: String = buf.into_iter().map(|s| {
+        format!("<tr> \
+        <td>?</td> \
+        <td>?</td> \
+        <td>{}</td> \
+      </tr>", s)
+    }).collect();
+    let response = PAGE_SRC.replace("%MESSAGES%", &messages);
+    Html(response)
 }
 
 #[derive(FromForm)]

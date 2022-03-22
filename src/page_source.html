@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang='en'>
+  <head>
+    <meta name='viewport' content='width=device-width'>
+    <title>WAYGATE</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #DDD;
+      }
+      tr:hover {background-color: #D6EEEE;}
+    </style>
+  </head>
+  <body>
+    <h1>You've found something interesting!</h1>
+    <p>This is a Waygate. Its a little place where you can leave your mark. Leave messages for people around you and read what other people have wrote.</p>
+    <form method="post" enctype="application/x-www-form-urlencoded" action="/message/">
+      <input type="text" name="body" value="Write a message"><br>
+      <input type="submit" value="Submit">
+    </form>
+    <table>
+      <tr>
+        <th>When</th>
+        <th>Who</th>
+        <th>What</th>
+      </tr>
+      %MESSAGES%
+    </table>
+  </body>
+</html>
