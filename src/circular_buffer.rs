@@ -49,9 +49,9 @@ impl<const N: usize> CircularBuffer<N> {
     }
 }
 
-impl<const N: usize> IntoIterator for CircularBuffer<N> {
+impl<'a, const N: usize> IntoIterator for &'a CircularBuffer<N> {
     type Item = String;
-    type IntoIter = CircularBufferIterator<N>;
+    type IntoIter = CircularBufferIterator<'a, N>;
 
     fn into_iter(self) -> <Self as IntoIterator>::IntoIter {
         let cursor = self.start_ptr;
@@ -62,12 +62,12 @@ impl<const N: usize> IntoIterator for CircularBuffer<N> {
     }
 }
 
-pub struct CircularBufferIterator<const N: usize> {
-    buffer: Box<CircularBuffer<N>>,
+pub struct CircularBufferIterator<'a, const N: usize> {
+    buffer: Box<&'a CircularBuffer<N>>,
     cursor: usize,
 }
 
-impl<const N: usize> Iterator for CircularBufferIterator<N> {
+impl<'a, const N: usize> Iterator for CircularBufferIterator<'a, N> {
     type Item = String;
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if self.cursor == self.buffer.end_ptr {
