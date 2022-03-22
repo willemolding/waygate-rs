@@ -28,7 +28,7 @@ impl<const N: usize> CircularBuffer<N> {
             // if the start and and pointers collide, fast forward the start_ptr to the next char
             // after it encounters a nul terminator
             if self.end_ptr == self.start_ptr {
-            	self.fastforward_start_ptr();
+                self.fastforward_start_ptr();
             }
         }
     }
@@ -145,7 +145,7 @@ mod tests {
         println!("{:?}", cb);
         assert_eq!(cb.start_ptr, 0);
         assert_eq!(cb.end_ptr, 6);
-        
+
         cb.write_str(&CString::new("world").unwrap());
         println!("{:?}", cb);
         assert_eq!(cb.start_ptr, 6);
@@ -161,7 +161,7 @@ mod tests {
     fn can_write_three_strings_with_wrap() {
         let mut cb: CircularBuffer<10> = CircularBuffer::new();
 
-        cb.write_str(&CString::new("hello").unwrap());        
+        cb.write_str(&CString::new("hello").unwrap());
         cb.write_str(&CString::new("world").unwrap());
         cb.write_str(&CString::new("peace").unwrap());
 
@@ -175,7 +175,7 @@ mod tests {
     fn can_write_three_strings_with_partial_wrap() {
         let mut cb: CircularBuffer<15> = CircularBuffer::new();
 
-        cb.write_str(&CString::new("hello").unwrap());        
+        cb.write_str(&CString::new("hello").unwrap());
         cb.write_str(&CString::new("world").unwrap());
         cb.write_str(&CString::new("peace").unwrap());
 
@@ -190,7 +190,7 @@ mod tests {
         // it requires two null bytes to work so len(string) + 2
         let mut cb: CircularBuffer<7> = CircularBuffer::new();
 
-        cb.write_str(&CString::new("hello").unwrap());        
+        cb.write_str(&CString::new("hello").unwrap());
 
         assert_eq!(
             cb.into_iter().collect::<Vec<_>>(),
